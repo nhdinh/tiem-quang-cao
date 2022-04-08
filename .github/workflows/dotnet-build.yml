@@ -111,7 +111,7 @@ jobs:
         release_name="App-$tag"
 
         # build everything
-        dotnet publish $env:Wap_Project_Path --framework net5.0-windows --runtime "win-x64" -c Release -o "$release_name"
+        dotnet publish "$Wap_Project_Path" --framework net5.0-windows --runtime "win-x64" -c Release -o "$release_name"
 
         # pack files
         7z a -tzip "${release_name}.zip" "./${release_name}/*"
