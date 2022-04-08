@@ -103,13 +103,37 @@ jobs:
         Appx_Package_Build_Mode: SideLoadOnly
         Configuration: ${{ matrix.configuration }}
 
+    - name: Build package
+      shell: bash
+      run: |
+        # Define some variables for things we need
+        tag=$(git describe --tags --abbrev=0)
+        release_name="App-$tag"
+
+        # build everything
+        dotnet publish $env:Wap_Project_Path --framework net5.0-windows --runtime "win-x64" -c Release -o "$release_name"
+
+        # pack files
+        7z a -tzip "${release_name}.zip" "./${release_name}/*"
+
+        # Delete output directory
+        rm -r "$release_name"
+
     # Remove the pfx
     - name: Remove the pfx
       run: Remove-Item -path $env:Wap_Project_Directory\GitHubActionsWorkflow.pfx
 
+    # publish
+    - name: Publish
+        uses: softprops/action-gh-release@v1
+        with:
+          files: "App*"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: MSIX Package
-        path: ${{ env.Wap_Project_Directory }}\AppPackages
+    # - name: Upload build artifacts
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: MSIX Package
+    #     path: ${{ env.Wap_Project_Directory }}\AppPackages
