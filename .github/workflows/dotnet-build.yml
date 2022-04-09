@@ -115,7 +115,7 @@ jobs:
         dotnet publish "$Wap_Project_Path" --framework net5.0-windows --runtime "win-x64" -c Release -o "$release_name"
 
         # pack files
-        cp "./${release_name}/update.xml" "update.xml"
+        cp "./${Wap_Project_Directory}/update.xml" "update.xml"
         7z a -tzip "${release_name}.zip" "./${release_name}/*"
 
         # update update xml
