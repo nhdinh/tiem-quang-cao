@@ -119,8 +119,8 @@ jobs:
         7z a -tzip "${release_name}.zip" "./${release_name}/*"
 
         # update update xml
-        sed -i "s/\{\{version\}\}/${tag}" update.xml
-        sed -i "s/\{\{download_url\}\}/https\:\/\/github.com\/nhdinh\/tiem-quang-cao\/releases\/tag\/${tag}\/App-${tag}.zip" update.xml
+        sed -i "s/{{version}}/${tag}/g" update.xml
+        sed -i "s/{{download_url}}/https\:\/\/github.com\/nhdinh\/tiem-quang-cao\/releases\/tag\/${tag}\/App-${tag}.zip/g" update.xml
 
         # Delete output directory
         rm -r "$release_name"
