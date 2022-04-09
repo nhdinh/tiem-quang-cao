@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TiemQuangCao", ".\TiemQuangCao\TiemQuangCao.csproj", "{CE966033-3E7D-4A5E-AD13-3CBE08FE51F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TiemQuangCao", "TiemQuangCao\TiemQuangCao.csproj", "{CE966033-3E7D-4A5E-AD13-3CBE08FE51F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TiemQuangCao.Tests", ".\TiemQuangCao.Tests\TiemQuangCao.Tests.csproj", "{978173C3-5319-4588-888E-52F54E4991E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TiemQuangCao.Tests", "TiemQuangCao.Tests\TiemQuangCao.Tests.csproj", "{978173C3-5319-4588-888E-52F54E4991E2}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{8699FF5D-DBB8-471A-8B7D-260FE437AD30}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,8 @@ Global
 		{978173C3-5319-4588-888E-52F54E4991E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{978173C3-5319-4588-888E-52F54E4991E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{978173C3-5319-4588-888E-52F54E4991E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8699FF5D-DBB8-471A-8B7D-260FE437AD30}.Debug|Any CPU.ActiveCfg = Debug
+		{8699FF5D-DBB8-471A-8B7D-260FE437AD30}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
