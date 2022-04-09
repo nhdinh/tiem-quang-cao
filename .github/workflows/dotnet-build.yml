@@ -115,7 +115,12 @@ jobs:
         dotnet publish "$Wap_Project_Path" --framework net5.0-windows --runtime "win-x64" -c Release -o "$release_name"
 
         # pack files
+        cp "./${Wap_Project_Directory}/update.xml" "update.xml"
         7z a -tzip "${release_name}.zip" "./${release_name}/*"
+
+        # update update xml
+        sed -i "s/{{version}}/${tag}/g" update.xml
+        sed -i "s/{{download_url}}/https\:\/\/github.com\/nhdinh\/tiem-quang-cao\/releases\/tag\/${tag}\/App-${tag}.zip/g" update.xml
 
         # Delete output directory
         rm -r "$release_name"
@@ -128,7 +133,9 @@ jobs:
     - name: Publish
       uses: softprops/action-gh-release@v1
       with:
-        files: "App-*"
+        files: |
+          App-*
+          update.xml
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
