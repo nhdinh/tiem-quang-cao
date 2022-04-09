@@ -10,6 +10,7 @@
   <ItemGroup>
     <PackageReference Include="Autoupdater.NET.Official" Version="1.7.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="5.0.0" />
+    <PackageReference Include="OctoKit" Version="0.50.0" />
   </ItemGroup>
 
   <ItemGroup>
