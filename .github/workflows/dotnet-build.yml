@@ -134,8 +134,8 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          "App-*"
-          "update.xml"
+          App-*
+          update.xml
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
