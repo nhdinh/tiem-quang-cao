@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<item>
-	<version>{{version}}</version>
-	<url>{{download_url}}</url>
-	<changelog>https://github.com/ravibpatel/AutoUpdater.NET/releases</changelog>
-	<mandatory>false</mandatory>
-</item>
