@@ -69,12 +69,10 @@ jobs:
       run: |
         tag=$(git describe --tags --abbrev=0)
         repo_name=${GITHUB_REPOSITORY/"${GITHUB_REPOSITORY_OWNER}/"/""}
-        version=${tag/"v"/""}
         export build_consts_path="${Project_Directory}/BuildConstants.cs"
         
         echo "namespace TiemQuangCao {" >> ${build_consts_path}
         echo "public static class BuildConstants {" >> ${build_consts_path}
-        echo "public const string VERSION = \"${version}\";" >> ${build_consts_path}
         echo "public const string GITHUB_USERNAME = \"${GITHUB_REPOSITORY_OWNER}\";" >> ${build_consts_path}
         echo "public const string GITHUB_REPOSITORY = \"${repo_name}\";" >> ${build_consts_path}
         echo "}}" >> ${build_consts_path}
@@ -122,15 +120,22 @@ jobs:
       run: |
         tag=$(git describe --tags --abbrev=0)
         repo_name=${GITHUB_REPOSITORY/"${GITHUB_REPOSITORY_OWNER}/"/""}
-        version=${tag/"v"/""}
         export build_consts_path="${Project_Directory}/BuildConstants.cs"
         
         echo "namespace TiemQuangCao {" >> ${build_consts_path}
         echo "public static class BuildConstants {" >> ${build_consts_path}
-        echo "public const string VERSION = \"${version}\";" >> ${build_consts_path}
         echo "public const string GITHUB_USERNAME = \"${GITHUB_REPOSITORY_OWNER}\";" >> ${build_consts_path}
         echo "public const string GITHUB_REPOSITORY = \"${repo_name}\";" >> ${build_consts_path}
         echo "}}" >> ${build_consts_path}
+
+    - name: Modify version of the assembly
+      shell: bash
+      run: |
+        tag=$(git describe --tags --abbrev=0)
+        version=${tag/"v"/""}
+
+        sed -i "s/<AssemblyVersion>0.0.0.0</AssemblyVersion>/<AssemblyVersion>{$version}</AssemblyVersion>/g" ${Project_Path}
+        sed -i "s/<FileVersion>0.0.0.0</FileVersion>/<FileVersion>{$version}</FileVersion>/g" ${Project_Path}
         
     # Decode the base 64 encoded pfx and save the Signing_Certificate
     - name: Decode the pfx
