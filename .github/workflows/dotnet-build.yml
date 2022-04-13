@@ -36,17 +36,16 @@
 # For a complete CI/CD sample to get started with GitHub Action workflows for Desktop Applications,
 # refer to https://github.com/microsoft/github-actions-for-desktop-apps
 
-name: .NET Core Desktop
+name: .NET Build
 
 on:
   push:
-    branches: [ master, make_build_action ]
-    tags: ["release-*.*.*", "release-*.*.*beta"]
+    branches:    
+      - '*'
   pull_request:
-    branches: [ master, make_build_action ]
+    branches: [ master ]
 
 jobs:
-
   build:
 
     strategy:
@@ -59,8 +58,6 @@ jobs:
     env:
       Solution_Name: TiemQuangCao.sln
       Test_Project_Path: TiemQuangCao.Tests\TiemQuangCao.Tests.csproj
-      Wap_Project_Directory: TiemQuangCao
-      Wap_Project_Path: TiemQuangCao\TiemQuangCao.csproj
 
     steps:
     - name: Checkout
@@ -88,22 +85,6 @@ jobs:
       env:
         Configuration: ${{ matrix.configuration }}
 
-    # Decode the base 64 encoded pfx and save the Signing_Certificate
-    - name: Decode the pfx
-      run: |
-        $pfx_cert_byte = [System.Convert]::FromBase64String("${{ secrets.Base64_Encoded_Pfx }}")
-        $certificatePath = Join-Path -Path $env:Wap_Project_Directory -ChildPath GitHubActionsWorkflow.pfx
-        [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
-
-    # Create the app package by building and packaging the Windows Application Packaging project
-    - name: Create the app package
-      run: msbuild $env:Wap_Project_Path /p:Configuration=$env:Configuration /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx /p:PackageCertificatePassword=${{ secrets.Pfx_Key }}
-      env:
-        Appx_Bundle: Always
-        Appx_Bundle_Platforms: x86|x64
-        Appx_Package_Build_Mode: SideLoadOnly
-        Configuration: ${{ matrix.configuration }}
-
     - name: Build package
       shell: bash
       run: |
@@ -124,24 +105,3 @@ jobs:
 
         # Delete output directory
         rm -r "$release_name"
-
-    # Remove the pfx
-    - name: Remove the pfx
-      run: Remove-Item -path $env:Wap_Project_Directory\GitHubActionsWorkflow.pfx
-
-    # publish
-    - name: Publish
-      uses: softprops/action-gh-release@v1
-      with:
-        files: |
-          App-*
-          update.xml
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
-    # - name: Upload build artifacts
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: MSIX Package
-    #     path: ${{ env.Wap_Project_Directory }}\AppPackages
