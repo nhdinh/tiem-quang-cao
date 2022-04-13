@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TiemQuangCao", "TiemQuangCa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TiemQuangCao.Tests", "TiemQuangCao.Tests\TiemQuangCao.Tests.csproj", "{978173C3-5319-4588-888E-52F54E4991E2}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{8699FF5D-DBB8-471A-8B7D-260FE437AD30}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,8 +21,6 @@ Global
 		{978173C3-5319-4588-888E-52F54E4991E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{978173C3-5319-4588-888E-52F54E4991E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{978173C3-5319-4588-888E-52F54E4991E2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8699FF5D-DBB8-471A-8B7D-260FE437AD30}.Debug|Any CPU.ActiveCfg = Debug
-		{8699FF5D-DBB8-471A-8B7D-260FE437AD30}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
