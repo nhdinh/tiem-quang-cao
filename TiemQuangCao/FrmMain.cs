@@ -26,8 +26,8 @@ namespace TiemQuangCao
 
         private async void tryGetUpdateXml()
         {
-            var client = new GitHubClient(new ProductHeaderValue("tiem-quang-cao"));
-            var releases = await client.Repository.Release.GetAll("nhdinh", "tiem-quang-cao");
+            var client = new GitHubClient(new ProductHeaderValue(BuildConstants.GITHUB_REPOSITORY));
+            var releases = await client.Repository.Release.GetAll(BuildConstants.GITHUB_USERNAME, BuildConstants.GITHUB_REPOSITORY);
 
             // stop the process if cannot get release information from github
             if (releases == null)
@@ -52,8 +52,7 @@ namespace TiemQuangCao
                     {
 
                         writer.WriteStartElement("item");
-                        //writer.WriteElementString("version", latestVersion.ToString());
-                        writer.WriteElementString("version", "1.0.0");
+                        writer.WriteElementString("version", latestVersion.ToString());
                         writer.WriteElementString("url", downloadAsset.BrowserDownloadUrl);
                         writer.WriteElementString("mandator", "true");
                     }

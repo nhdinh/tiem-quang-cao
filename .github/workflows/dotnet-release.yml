@@ -55,6 +55,7 @@ jobs:
 
     env:
       Solution_Name: TiemQuangCao.sln
+      Project_Directory: TiemQuangCao
       Test_Project_Path: TiemQuangCao.Tests\TiemQuangCao.Tests.csproj
 
     steps:
@@ -62,6 +63,21 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
+
+    - name: Make BuildConstants
+      shell: bash
+      run: |
+        tag=$(git describe --tags --abbrev=0)
+        repo_name = ${GITHUB_REPOSITORY/"${GITHUB_REPOSITORY_OWNER}/"/""}
+        version = ${tag/"v"/""}
+        export build_consts_path="${Project_Directory}/BuildConstants.cs"
+        
+        echo "namespace TiemQuangCao {" >> ${build_consts_path}
+        echo "public static class BuildConstants {" >> ${build_consts_path}
+        echo "public const string VERSION = \"${version}\";" >> ${build_consts_path}
+        echo "public const string GITHUB_USERNAME = \"${GITHUB_REPOSITORY_OWNER}\";" >> ${build_consts_path}
+        echo "public const string GITHUB_REPOSITORY = \"${repo_name}\";" >> ${build_consts_path}
+        echo "}}" >> ${build_consts_path}
 
     # Install the .NET Core workload
     - name: Install .NET Core
@@ -100,6 +116,21 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
+
+    - name: Make BuildConstants
+      shell: bash
+      run: |
+        tag=$(git describe --tags --abbrev=0)
+        repo_name = ${GITHUB_REPOSITORY/"${GITHUB_REPOSITORY_OWNER}/"/""}
+        version = ${tag/"v"/""}
+        export build_consts_path="${Project_Directory}/BuildConstants.cs"
+        
+        echo "namespace TiemQuangCao {" >> ${build_consts_path}
+        echo "public static class BuildConstants {" >> ${build_consts_path}
+        echo "public const string VERSION = \"${version}\";" >> ${build_consts_path}
+        echo "public const string GITHUB_USERNAME = \"${GITHUB_REPOSITORY_OWNER}\";" >> ${build_consts_path}
+        echo "public const string GITHUB_REPOSITORY = \"${repo_name}\";" >> ${build_consts_path}
+        echo "}}" >> ${build_consts_path}
         
     # Decode the base 64 encoded pfx and save the Signing_Certificate
     - name: Decode the pfx
