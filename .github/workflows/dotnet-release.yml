@@ -68,8 +68,8 @@ jobs:
       shell: bash
       run: |
         tag=$(git describe --tags --abbrev=0)
-        repo_name = ${GITHUB_REPOSITORY/"${GITHUB_REPOSITORY_OWNER}/"/""}
-        version = ${tag/"v"/""}
+        repo_name=${GITHUB_REPOSITORY/"${GITHUB_REPOSITORY_OWNER}/"/""}
+        version=${tag/"v"/""}
         export build_consts_path="${Project_Directory}/BuildConstants.cs"
         
         echo "namespace TiemQuangCao {" >> ${build_consts_path}
@@ -121,8 +121,8 @@ jobs:
       shell: bash
       run: |
         tag=$(git describe --tags --abbrev=0)
-        repo_name = ${GITHUB_REPOSITORY/"${GITHUB_REPOSITORY_OWNER}/"/""}
-        version = ${tag/"v"/""}
+        repo_name=${GITHUB_REPOSITORY/"${GITHUB_REPOSITORY_OWNER}/"/""}
+        version=${tag/"v"/""}
         export build_consts_path="${Project_Directory}/BuildConstants.cs"
         
         echo "namespace TiemQuangCao {" >> ${build_consts_path}
