@@ -80,28 +80,7 @@ jobs:
       run: dotnet test $env:Test_Project_Path
 
     # Restore the application to populate the obj folder with RuntimeIdentifiers
-    - name: Restore the application
-      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
+    - name: Testing build
+      run: dotnet build $env:Solution_name --configuration $env:Configuration      
       env:
         Configuration: ${{ matrix.configuration }}
-
-    - name: Build package
-      shell: bash
-      run: |
-        # Define some variables for things we need
-        tag=$(git describe --tags --abbrev=0)
-        release_name="App-$tag"
-
-        # build everything
-        dotnet publish "$Wap_Project_Path" --framework net5.0-windows --runtime "win-x64" -c Release -o "$release_name"
-
-        # pack files
-        cp "./${Wap_Project_Directory}/update.xml" "update.xml"
-        7z a -tzip "${release_name}.zip" "./${release_name}/*"
-
-        # update update xml
-        sed -i "s/{{version}}/${tag}/g" update.xml
-        sed -i "s/{{download_url}}/https\:\/\/github.com\/nhdinh\/tiem-quang-cao\/releases\/tag\/${tag}\/App-${tag}.zip/g" update.xml
-
-        # Delete output directory
-        rm -r "$release_name"
