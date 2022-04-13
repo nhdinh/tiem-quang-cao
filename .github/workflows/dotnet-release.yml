@@ -40,27 +40,20 @@ name: .NET Core Desktop
 
 on:
   push:
-    branches: [ master, make_build_action ]
-    tags: ["release-*.*.*", "release-*.*.*beta"]
+    branches:  
+      - '*'
   pull_request:
-    branches: [ master, make_build_action ]
+    branches: [ master ]
 
 jobs:
+  test_and_build:
+    name: "Test and Build"
 
-  build:
-
-    strategy:
-      matrix:
-        configuration: [Debug, Release]
-
-    runs-on: windows-latest  # For a list of available runner types, refer to
-                             # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
+    runs-on: windows-latest
 
     env:
       Solution_Name: TiemQuangCao.sln
       Test_Project_Path: TiemQuangCao.Tests\TiemQuangCao.Tests.csproj
-      Wap_Project_Directory: TiemQuangCao
-      Wap_Project_Path: TiemQuangCao\TiemQuangCao.csproj
 
     steps:
     - name: Checkout
@@ -82,66 +75,60 @@ jobs:
     - name: Execute unit tests
       run: dotnet test $env:Test_Project_Path
 
-    # Restore the application to populate the obj folder with RuntimeIdentifiers
-    - name: Restore the application
-      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
-      env:
-        Configuration: ${{ matrix.configuration }}
 
+  release:
+    name: "Release"
+
+    needs: test_and_build
+
+    if: startsWith(github.ref, 'refs/tags/v')
+    strategy:
+      matrix:
+        configuration: [Debug, Release]
+        runtime_identifier: [win-x86, win-x64]
+
+    runs-on: windows-latest
+
+    env:
+      Project_Directory: TiemQuangCao
+      Project_Path: TiemQuangCao\TiemQuangCao.csproj
+
+    steps:
     # Decode the base 64 encoded pfx and save the Signing_Certificate
     - name: Decode the pfx
       run: |
         $pfx_cert_byte = [System.Convert]::FromBase64String("${{ secrets.Base64_Encoded_Pfx }}")
-        $certificatePath = Join-Path -Path $env:Wap_Project_Directory -ChildPath GitHubActionsWorkflow.pfx
+        $certificatePath = Join-Path -Path $env:Project_Directory -ChildPath GitHubActionsWorkflow.pfx
         [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
-
-    # Create the app package by building and packaging the Windows Application Packaging project
-    - name: Create the app package
-      run: msbuild $env:Wap_Project_Path /p:Configuration=$env:Configuration /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx /p:PackageCertificatePassword=${{ secrets.Pfx_Key }}
-      env:
-        Appx_Bundle: Always
-        Appx_Bundle_Platforms: x86|x64
-        Appx_Package_Build_Mode: SideLoadOnly
-        Configuration: ${{ matrix.configuration }}
 
     - name: Build package
       shell: bash
       run: |
         # Define some variables for things we need
         tag=$(git describe --tags --abbrev=0)
-        release_name="App-$tag"
+        release_name="TiemQuangCao-$tag-$RuntimeIdentifier-$Configuration"
 
         # build everything
-        dotnet publish "$Wap_Project_Path" --framework net5.0-windows --runtime "win-x64" -c Release -o "$release_name"
+        dotnet publish "$Project_Path" --framework "net5.0-windows" --runtime "$RuntimeIdentifier" -c "$Configuration" -o "$release_name"
 
         # pack files
-        cp "./${Wap_Project_Directory}/update.xml" "update.xml"
         7z a -tzip "${release_name}.zip" "./${release_name}/*"
-
-        # update update xml
-        sed -i "s/{{version}}/${tag}/g" update.xml
-        sed -i "s/{{download_url}}/https\:\/\/github.com\/nhdinh\/tiem-quang-cao\/releases\/tag\/${tag}\/App-${tag}.zip/g" update.xml
 
         # Delete output directory
         rm -r "$release_name"
-
-    # Remove the pfx
-    - name: Remove the pfx
-      run: Remove-Item -path $env:Wap_Project_Directory\GitHubActionsWorkflow.pfx
+      env:
+        RuntimeIdentifier: ${{ matrix.runtime_identifier }}
+        Configuration: ${{ matrix.configuration }}
 
     # publish
     - name: Publish
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          App-*
-          update.xml
+          TiemQuangCao-*
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
-    # - name: Upload build artifacts
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: MSIX Package
-    #     path: ${{ env.Wap_Project_Directory }}\AppPackages
+    # Remove the pfx
+    - name: Remove the pfx
+      run: Remove-Item -path $env:Project_Directory\GitHubActionsWorkflow.pfx
