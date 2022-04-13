@@ -134,8 +134,8 @@ jobs:
         tag=$(git describe --tags --abbrev=0)
         version=${tag/"v"/""}
 
-        sed -i "s/<AssemblyVersion>0.0.0.0<\/AssemblyVersion>/<AssemblyVersion>{$version}<\/AssemblyVersion>/g" ${Project_Path}
-        sed -i "s/<FileVersion>0.0.0.0<\/FileVersion>/<FileVersion>{$version}<\/FileVersion>/g" ${Project_Path}
+        sed -i "s/<AssemblyVersion>0.0.0.0<\/AssemblyVersion>/<AssemblyVersion>$version<\/AssemblyVersion>/g" ${Project_Path}
+        sed -i "s/<FileVersion>0.0.0.0<\/FileVersion>/<FileVersion>$version<\/FileVersion>/g" ${Project_Path}
         
     # Decode the base 64 encoded pfx and save the Signing_Certificate
     - name: Decode the pfx
