@@ -42,6 +42,10 @@ namespace TiemQuangCao
                 var productVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
 
                 string downloadFileName = string.Format("TiemQuangCao-{0}-{1}-Release", latestRelease.TagName, Helpers.GetRuntimeIdentifier());
+
+                // if there is only source file in release, then stop the updater
+                if (latestRelease.Assets.Count <= 2) return;
+
                 var downloadAsset = latestRelease.Assets.Where(a => a.Name.StartsWith(downloadFileName)).First();
 
                 if (latestVersion != null && downloadAsset != null)
