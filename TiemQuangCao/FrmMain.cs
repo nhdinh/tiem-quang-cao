@@ -26,12 +26,16 @@ namespace TiemQuangCao
         {
             var client = new GitHubClient(new ProductHeaderValue("tiem-quang-cao"));
             var releases = await client.Repository.Release.GetAll("nhdinh", "tiem-quang-cao");
-            var latest = releases[0];
 
-            var updateXml = latest.Assets.Where(x => x.Name == "update.xml").FirstOrDefault();
-            var updateXmlDownloadUrl = updateXml.BrowserDownloadUrl;
+            if (releases.Count > 0)
+            {
+                var latest = releases[0];
 
-            AutoUpdater.Start(updateXmlDownloadUrl);
+                var updateXml = latest.Assets.Where(x => x.Name == "update.xml").FirstOrDefault();
+                var updateXmlDownloadUrl = updateXml.BrowserDownloadUrl;
+
+                AutoUpdater.Start(updateXmlDownloadUrl);
+            }
 
         }
     }
