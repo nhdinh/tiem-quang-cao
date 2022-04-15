@@ -7,6 +7,23 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TiemQuangCao", "TiemQuangCa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TiemQuangCao.Tests", "TiemQuangCao.Tests\TiemQuangCao.Tests.csproj", "{978173C3-5319-4588-888E-52F54E4991E2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BFA7A502-23F3-4439-ABCB-A76592B24C97}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.github\workflows\dotnet-release.yml = .github\workflows\dotnet-release.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "actions", "actions", "{24D3DDDD-1335-4567-B141-32D175787A14}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\dotnet-release.yml = .github\workflows\dotnet-release.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "git_hooks", "git_hooks", "{61CA6866-0BFC-4AB8-B0CB-947F4B81926E}"
+	ProjectSection(SolutionItems) = preProject
+		Scripts\init.js = Scripts\init.js
+		Scripts\git_hooks\pre-commit = Scripts\git_hooks\pre-commit
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +41,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{24D3DDDD-1335-4567-B141-32D175787A14} = {BFA7A502-23F3-4439-ABCB-A76592B24C97}
+		{61CA6866-0BFC-4AB8-B0CB-947F4B81926E} = {BFA7A502-23F3-4439-ABCB-A76592B24C97}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5AE3BDF9-2647-4864-91C4-772D7B51ED87}
