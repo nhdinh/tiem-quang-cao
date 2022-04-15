@@ -75,6 +75,7 @@ jobs:
         echo "public static class BuildConstants {" >> ${build_consts_path}
         echo "public const string GITHUB_USERNAME = \"${GITHUB_REPOSITORY_OWNER}\";" >> ${build_consts_path}
         echo "public const string GITHUB_REPOSITORY = \"${repo_name}\";" >> ${build_consts_path}
+        echo "public const string GITHUB_ASSET_NAME = \"TiemQuangCao-{0}-{1}-Release\";" >> ${build_consts_path}
         echo "}}" >> ${build_consts_path}
 
     # Install the .NET Core workload
