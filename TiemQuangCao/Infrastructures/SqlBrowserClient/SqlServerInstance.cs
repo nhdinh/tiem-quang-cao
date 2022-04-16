@@ -5,5 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace TiemQuangCao.Infrastructures.SqlBrowserClient
-{	public record SqlServerInstance(string ServerName, string InstanceName, bool IsClustered, string Version, int TcpPort, string NamedPipe);
+{
+	public record SqlServerInstance(string ServerName, string InstanceName, bool IsClustered, string Version, int TcpPort, string NamedPipe);
 }

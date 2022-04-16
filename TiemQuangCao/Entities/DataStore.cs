@@ -35,7 +35,7 @@ namespace TiemQuangCao.Entities
 			}
 		}
 
-		public static IDataStore GetStore(string connectionString="")
+		public static IDataStore GetStore(string connectionString = "")
 		{
 			if (_instance == null)
 				_instance = new DataStore(connectionString);

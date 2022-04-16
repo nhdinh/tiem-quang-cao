@@ -56,7 +56,8 @@ namespace TiemQuangCao
 		public static ServiceControllerStatus? IsServiceUp(string serviceName)
 		{
 			ServiceController serviceController = new ServiceController(serviceName);
-			if (serviceController != null) {
+			if (serviceController != null)
+			{
 				return serviceController.Status;
 			}
 
