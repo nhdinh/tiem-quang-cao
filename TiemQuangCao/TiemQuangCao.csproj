@@ -9,7 +9,17 @@
     <FileVersion>0.0.0.0</FileVersion>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <StartupObject>TiemQuangCao.Program</StartupObject>
+    <Version>$(VersionPrefix)</Version>
+    <Authors>Kitten Koder</Authors>
+    <Copyright>Copyleft</Copyright>
+    <PackageIcon>z3064689574911_3e37fa25561bcddc78b226469a12784f.jpg</PackageIcon>
+    <ApplicationIcon>TiemQuangCao.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="TiemQuangCao.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Include="..\README.md">
